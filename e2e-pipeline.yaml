@@ -1,0 +1,22 @@
+trigger: none
+
+# jobs: 
+# - Run unit tests
+# - k8s-linux-default-e2e
+
+jobs:
+- job: Unit Tests
+  timeoutInMinutes: 60
+  cancelTimeoutInMinutes: 5
+  strategy:
+    maxParallel: 0
+    # note: `parallel` and `matrix` are mutually exclusive
+    # you may specify one or the other; including both is an error
+    parallel: 0
+  pool:
+    vmImage: ubuntu-16.04
+
+  container: quay.io/deis/go-dev:v1.17.3
+
+  steps:
+    - script: echo Hello world
