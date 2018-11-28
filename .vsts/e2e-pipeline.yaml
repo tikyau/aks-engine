@@ -12,7 +12,6 @@ jobs:
     maxParallel: 0
     # note: `parallel` and `matrix` are mutually exclusive
     # you may specify one or the other; including both is an error
-    parallel: 0
   pool:
     vmImage: ubuntu-16.04
 
