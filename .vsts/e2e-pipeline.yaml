@@ -5,7 +5,7 @@ trigger: none
 # - k8s-linux-default-e2e
 
 jobs:
-- job: Unit Tests
+- job: unit_tests
   timeoutInMinutes: 60
   cancelTimeoutInMinutes: 5
   strategy:
