@@ -4,6 +4,11 @@ trigger: none
 # - Run unit tests
 # - k8s-linux-default-e2e
 
+resources:
+  containers:
+  - container: dev1
+    image: quay.io/deis/go-dev:v1.17.3
+
 jobs:
 - job: unit_tests
   timeoutInMinutes: 60
@@ -15,7 +20,7 @@ jobs:
   pool:
     vmImage: ubuntu-16.04
 
-  container: quay.io/deis/go-dev:v1.17.3
+  container: dev1
 
   steps:
     - script: echo Hello world
