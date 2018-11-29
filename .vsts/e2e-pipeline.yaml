@@ -23,6 +23,8 @@ jobs:
   container: dev1
 
   steps:
+    - script: echo 'export PATH=$GOPATH/bin:$PATH' >> $BASH_ENV
+      displayName: Export PATH
     - script: make bootstrap
       displayName: Install dependencies
     - script: make test-style
