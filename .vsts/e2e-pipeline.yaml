@@ -23,4 +23,13 @@ jobs:
   container: dev1
 
   steps:
-    - script: echo Hello world
+    - script: make bootstrap
+      displayName: Install dependencies
+    - script: make test-style
+      displayName: Run linting rules
+    - script: make validate-dependencies
+      displayName: Check if imports, Gopkg.toml, and Gopkg.lock are in sync
+    - script: make build-cross
+      displayName: Build cross-architectural binaries
+    - script: make coverage
+      displayName: Run unit tests and calculate coverage
