@@ -15,8 +15,6 @@ jobs:
   cancelTimeoutInMinutes: 5
   strategy:
     maxParallel: 0
-    # note: `parallel` and `matrix` are mutually exclusive
-    # you may specify one or the other; including both is an error
   pool:
     vmImage: ubuntu-16.04
 
@@ -40,11 +38,46 @@ jobs:
       displayName: 'Set up the Go workspace'
     - script: make bootstrap
       displayName: Install dependencies
+      workingDirectory: $(modulePath)
     - script: make test-style
       displayName: Run linting rules
+      workingDirectory: $(modulePath)
     - script: make validate-dependencies
       displayName: Check if imports, Gopkg.toml, and Gopkg.lock are in sync
+      workingDirectory: $(modulePath)
     - script: make build-cross
       displayName: Build cross-architectural binaries
+      workingDirectory: $(modulePath)
     - script: make coverage
       displayName: Run unit tests and calculate coverage
+      workingDirectory: $(modulePath)
+
+- job: default_linux_e2e
+  timeoutInMinutes: 60
+  cancelTimeoutInMinutes: 5
+  strategy:
+    maxParallel: 0
+  pool:
+    vmImage: ubuntu-16.04
+
+  container: dev1
+
+  variables:
+    GOBIN:  '$(GOPATH)/bin' # Go binaries path
+    GOROOT: '/usr/local/go1.11' # Go installation path
+    GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
+    modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
+
+  steps:
+    - script: |
+        mkdir -p '$(GOBIN)'
+        mkdir -p '$(GOPATH)/pkg'
+        mkdir -p '$(modulePath)'
+        shopt -s extglob
+        mv !(gopath) '$(modulePath)'
+        echo '##vso[task.prependpath]$(GOBIN)'
+        echo '##vso[task.prependpath]$(GOROOT)/bin'
+      displayName: 'Set up the Go workspace'
+    - script: make build-binary
+      displayName: Compile
+      workingDirectory: $(modulePath)
