@@ -21,15 +21,14 @@ jobs:
   container: dev1
 
   variables:
-    GOPATH: '/go' # Go workspace path
+    GOPATH: /go
     modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
   steps:
     - script: |
        export PATH=$GOPATH/bin:$PATH
-       printenv
       displayName: 'Set up the Go workspace'
-    - script: make bootstrap
+    - script: printenv && make bootstrap
       displayName: Install dependencies
     - script: make test-style
       displayName: Run linting rules
