@@ -22,6 +22,7 @@ jobs:
 
   variables:
     GOBIN:  '$(GOPATH)/bin' # Go binaries path
+    GOROOT: '/usr/local/go/bin' # Go installation path
     GOPATH: '/go' # Go workspace path
     modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
@@ -33,8 +34,9 @@ jobs:
       shopt -s extglob
       mv !(gopath) '$(modulePath)'
       echo '##vso[task.prependpath]$(GOBIN)'
+      echo '##vso[task.prependpath]$(GOROOT)/bin'
     displayName: 'Set up the Go workspace'
-  - script: ls && make bootstrap
+  - script: which go && make bootstrap
     displayName: Install dependencies
   - script: make test-style
     displayName: Run linting rules
