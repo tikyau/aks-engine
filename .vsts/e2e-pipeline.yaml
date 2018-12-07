@@ -28,7 +28,6 @@ jobs:
 
   steps:
     - script: |
-        mv !(gopath) '$(modulePath)'
        export PATH=$GOPATH/bin:$PATH
        printenv
       displayName: 'Set up the Go workspace'
