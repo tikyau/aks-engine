@@ -18,6 +18,8 @@ jobs:
   pool:
     vmImage: ubuntu-16.04
 
+  container: dev1
+
   variables:
     GOBIN:  '$(GOPATH)/bin' # Go binaries path
     GOPATH: '/go' # Go workspace path
@@ -32,7 +34,7 @@ jobs:
       mv !(gopath) '$(modulePath)'
       echo '##vso[task.prependpath]$(GOBIN)'
     displayName: 'Set up the Go workspace'
-  - script: printenv && make bootstrap
+  - script: ls && make bootstrap
     displayName: Install dependencies
   - script: make test-style
     displayName: Run linting rules
