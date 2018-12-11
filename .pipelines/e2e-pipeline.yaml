@@ -27,15 +27,15 @@ jobs:
 
   steps:
   - script: |
-      mkdir -p '$(GOBIN)'
-      mkdir -p '$(GOPATH)/pkg'
-      mkdir -p '$(modulePath)'
+      mkdir -p $(GOBIN)
+      mkdir -p $(GOPATH)/pkg
+      mkdir -p $(modulePath)
       shopt -s extglob
-      mv !(gopath) '$(modulePath)'
-      echo '##vso[task.prependpath]$(GOBIN)'
-      echo '##vso[task.prependpath]$(GOROOT)/bin'
+      mv !(gopath) $(modulePath)
+      echo "##vso[task.prependpath]$(GOBIN)"
+      echo "##vso[task.prependpath]$(GOROOT)/bin"
     displayName: 'Set up the Go workspace'
-  - script: printenv && which go && make bootstrap
+  - script: echo $(PATH) && ls $(GOBIN) && make bootstrap
     displayName: Install dependencies
   - script: make test-style
     displayName: Run linting rules
