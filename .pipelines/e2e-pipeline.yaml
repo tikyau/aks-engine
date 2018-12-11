@@ -24,18 +24,14 @@ jobs:
     GOPATH: '/go' # Go workspace path
     GOBIN:  '$(GOPATH)/bin' # Go binaries path
     modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
+    PATH: '$GOPATH/bin:$PATH'
 
   steps:
   - script: |
-      mkdir -p '$(GOBIN)'
-      mkdir -p '$(GOPATH)/pkg'
       mkdir -p '$(modulePath)'
-      shopt -s extglob
       mv !(gopath) '$(modulePath)'
-      echo '##vso[task.prependpath]$(GOBIN)'
-      echo '##vso[task.prependpath]$(GOROOT)/bin'
     displayName: 'Set up the Go workspace'
-  - script: pwd && echo $PATH && make bootstrap
+  - script: echo $PATH && make bootstrap
     displayName: Install dependencies
     workingDirectory: $(modulePath)
   - script: make test-style
