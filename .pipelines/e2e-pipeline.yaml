@@ -24,7 +24,6 @@ jobs:
     GOPATH: '/go' # Go workspace path
     GOBIN:  '$(GOPATH)/bin' # Go binaries path
     modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
-    PATH: '$GOPATH/bin:$PATH'
 
   steps:
   - script: |
