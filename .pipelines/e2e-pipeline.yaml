@@ -35,7 +35,7 @@ jobs:
   #     echo '##vso[task.prependpath]$(GOBIN)'
   #     echo '##vso[task.prependpath]$(GOROOT)/bin'
   # displayName: 'Set up the Go workspace'
-  - script: echo $PATH && make bootstrap
+  - script: pwd && ls /go/bin && make bootstrap
     displayName: Install dependencies
   - script: make test-style
     displayName: Run linting rules
